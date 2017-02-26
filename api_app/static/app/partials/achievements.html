@@ -1,0 +1,55 @@
+<div class="cssload-container" id="spaning" data-loading><div class="cssload-whirlpool"></div></div>
+<div id="latlongmap" style="height:600px; width:90%;" ng-hide="achieveTableData"></div>
+<div class="row bg-gray border" ng-hide="achieveTableData">
+    <div class="col-md-4">
+        <h4>Get list of guards (60 days minimum)</h4>
+          <form id="faction">
+            <div class="radio">
+              <label><input type="radio" checked="checked" name="optradio" value="2">Resistance</label>
+            </div>
+            <div class="radio">
+              <label><input type="radio" name="optradio" value="1">Enlightened</label>
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox" name="attent" value="">Attention (87-90 days and 147-150 days)</label>
+            </div>
+          </form>
+        <input type="text" class="form-control" id="days" placeholder="Input min days" name="days" style="width: 160px;">
+        <button id="hunter_btn" type="button" ng-click="showOnMap();" class="btn btn-primary">Show</button>
+        <button id="list_btn" type="button" href="javascript:void(0)" ng-click="getAchievements();" class="btn btn-primary">To List</button>
+    </div>
+    <div class="col-md-8">
+        <div class="row">
+            <h4>*</h4>
+            <p>Neutral portals in list!</p>
+        </div>
+    </div>
+</div>
+<div class="row ng-hide" ng-show="achieveTableData">
+    <div class="col-sm-12">
+        <div class="table-cell" style="height: 100%">
+            <table class="table" st-table="achieveTableData">
+                <thead>
+                <tr class="sortable ">
+                  <th>Agent</th>
+                  <th>Portal Name</th>
+                  <th>Days</th>
+                  <th>Capture Date</th>
+                  <th>Address</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in achieveTableData">
+                  <td><span role="button" ng-click="playersearch(item.player);"
+                            data-toggle="modal" data-target="#profileModal" ng-style="{'color': TEAM_TO_CSS[item.team]}">{{item.player}}</span></td>
+                  <td><a target="_blank" href="{{getUrl(item.late6,item.lnge6)}}">{{item.name}}</a></td>
+                  <td>{{unixTimeDiffDays(item.timestamp)}}</td>
+                  <td>{{unixTimeToString(item.timestamp)}}</td>
+                  <td>({{item.address}})</td>
+                </tr>
+                </tbody>
+             </table>
+        </div>
+    </div>
+
+</div>

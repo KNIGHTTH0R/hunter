@@ -1,0 +1,56 @@
+
+{% autoescape None %}
+
+<div class="row">
+    <div class="col-md-12">
+
+	{% if stats %}
+		    <div class="row bg-gray border">
+                <div class="col-md-8">
+                    <h4>Result:</h4>
+					<div>{{ stats }}</div>
+					{% if result %}
+						<div>
+						<h4>Insert this code to draw tools iitc plugin:</h4>
+						{{ result }}
+						</div>
+					{% end %}
+                </div>
+                <div class="col-md-4">
+                    <div class="row">
+                    </div>
+                </div>
+            </div>
+
+		</div>
+	{% else %}
+        <h2>Select area for count</h2>
+        <div id="latlongmap" style="height:600px; width:100%;"></div>
+            <div class="row bg-gray border">
+                <div class="col-md-4">
+                    <h4>Select faction:</h4>
+                      <form id="faction">
+                        <div class="radio">
+                          <label><input type="radio" checked="checked" name="optradio" value="2">Resistance</label>
+                        </div>
+                        <div class="radio">
+                          <label><input type="radio" name="optradio" value="1">Enlightened</label>
+                        </div>
+                      </form>
+                    <button id="auto_btn" type="button" onclick="countMF();" class="btn btn-primary">Auto Create</button>
+                    <!--<button id="manual_btn" type="button" onclick="manualMF();" class="btn btn-primary">Manual</button>-->
+                    <!--<button id="list_btn" type="button" onclick="tolistMF();" class="btn btn-primary">Get portals from area</button>-->
+                    <div class="cssload-container" id="spaning" style="visibility: hidden;">
+                        <div class="cssload-whirlpool"></div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="row">
+                    </div>
+                </div>
+            </div>
+
+    </div>
+</div>
+	{% end %}
+

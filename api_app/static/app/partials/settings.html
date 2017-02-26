@@ -1,0 +1,117 @@
+<div class="cssload-container" id="spaning" data-loading><div class="cssload-whirlpool"></div></div>
+<div class="ng-show"  ng-hide="showInventoryData">
+    <div class="sub-nav-content-container" ng-show="user" class="ng-hide">
+        <a href="/#/instructions">Instructions how to use this feature</a>
+        <h2>Your account</h2>
+        <p>Email: {{user.email}}</p>
+        <p>Permissions: {{user.permissions}}</p>
+        <hr>
+        <div class="ng-hide" ng-show="showAccountsData" ng-hide="showInventoryData">
+            <h4>Accounts list</h4>
+            <table class="table" st-table="showAccountsData">
+                <thead>
+                <tr class="sortable ">
+                    <th>Agent Name</th>
+                    <th>Updated days ago</th>
+                    <th>Show inventory</th>
+                    <th>Remove</th>
+                    <th>Profile requests from this account</th>
+                    <th>Hide achievements</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in showAccountsData">
+                    <td><span ng-style="{'color': TEAM_TO_CSS[item.faction]}">{{item.agent_name}}</span></td>
+                    <td>{{unixTimeDiffDays(item.timestamp)}}</td>
+                    <td><button ng-show="item.agent_id" type="button" class="btn btn-primary btn-sm ng-hide" role="button" id="{{item.agent_id}}" ng-click="showInventory(item.agent_id);">Show inventory</button></td>
+                    <td><button ng-show="item.agent_name" type="button" class="btn btn-primary btn-sm ng-hide" role="button" id="rem_{{item.agent_name}}" ng-click="removeaccount(item.agent_name);">X</button></td>
+                    <td><input class="ng-hide" ng-show="item.agent_id" type="checkbox" name="attent" value="" ng-change="set_active(item.agent_id)" ng-model="item"></td>
+                    <td><button ng-show="item.agent_id" type="button" class="btn btn-primary btn-sm ng-hide" role="button" id="hide_{{item.agent_id}}" ng-click="hideAchievements(item.agent_id);">Hide</button></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <p>If you want use more account with one email, you can add 5 accounts</p>
+    <div class="row" class="ng-hide" ng-hide="findNameValue">
+        <div class="col-md-12">
+            <form role="form">
+                <div class="form-group">
+                    <label for="addAccount">Add account</label>
+                    <input type="text" class="form-control" id="addAccount" placeholder="Insert Agent name..." ng-model="player" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary" ng-click="addaccount(player);">Add</button>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="sub-nav-content-container" ng-show="showInventoryData" class="ng-hide">
+    <h2>Inventory of account</h2>
+    <div>
+        <p>Resources With Level</p>
+        <table class="table" st-table="showInventoryData">
+            <thead>
+            <tr class="sortable ">
+                <th>Item_ID</th>
+                <th>Count</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="(item, key) in showInventoryData.resourceWithLevels">
+                <td><img src="app/img/inventory/{{item}}.png" height=100></td>
+                <td>{{key}}</td>
+            </tr>
+            </tbody>
+        </table>
+        <p>Resources</p>
+        <table class="table" st-table="showInventoryData">
+            <thead>
+            <tr class="sortable ">
+                <th>Item_ID</th>
+                <th>Count</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="(item, key) in showInventoryData.resource">
+                <td><img src="app/img/inventory/{{item}}.png" height=100></td>
+                <td>{{key}}</td>
+            </tr>
+            </tbody>
+        </table>
+        <p>Mods</p>
+        <table class="table" st-table="showInventoryData">
+            <thead>
+            <tr class="sortable ">
+                <th>Item_ID</th>
+                <th>Count</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="(item, key) in showInventoryData.modResource">
+                <td><img src="app/img/inventory/{{item}}.png" height=100></td>
+                <td>{{key}}</td>
+            </tr>
+            </tbody>
+        </table>
+        <p>Portal keys</p>
+        <div id="latlongmap" style="height:600px; width:90%;" ng-show="initData"></div>
+        <button type="button" ng-hide="initData" class="ng-show btn btn-primary" ng-click="showInventoryOnMap(showInventoryData.agent_id);">Show keys on the map</button>
+        <table class="table" st-table="showInventoryData">
+            <thead>
+            <tr>
+                <th>Img</th>
+                <th>Portal name</th>
+                <th>Address</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in showInventoryData.portalKeys">
+                <td><img height="100" src="{{item.portalImageUrl}}"></td>
+                <td><a href="{{getUrl(item.portalLocation[0], item.portalLocation[1])}}" target="_blank">{{item.portalTitle}}</a></td>
+                <td>{{item.portalAddress}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

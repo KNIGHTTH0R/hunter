@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<table class="table ">
+    <tr><th>URL</th><th>Method</th><th>Main argument</th></tr>
+    {% for request in requests %}
+    <tr><td>/api</td><td>POST</td><td>{{ request }}</td></tr>
+    {% end for %}
+</table>
+</body>
+</html>

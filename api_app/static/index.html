@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en" ng-app="myApp" ng-controller="AppCtrl">
+<head>
+        <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <!--<meta name="viewport" content="user-scalable = no">-->
+    <meta name="description" content="ingress guardian finder">
+    <meta name="author" content="ingress-guard.tk">
+
+    <title>Ingress guardian finder</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="/favicon.png"/>
+    <!-- Custom CSS -->
+    <link href="css/main.css?v=9" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter40819629 = new Ya.Metrika({
+                    id:40819629,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true,
+                    webvisor:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/40819629" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-87248711-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    {% if current_user %}
+                    <li ng-class="{ selected: isActive('/plugin')}"><a href="#/plugin">
+                        IITC Plugin</a></li>
+                    <li ng-class="{ selected: isActive('/achievements')}"><a href="#/achievements">
+                        Achievements</a></li>
+                    <li ng-class="{ selected: isActive('/player')}"><a href="#/player">
+                        Player</a></li>
+                    <li ng-class="{ selected: isActive('/settings')}"><a href="#/settings">
+                        Settings</a></li>
+                    <!--<li><a href="/mfgenerator">MaxField Generator</a></li>-->
+                    <li ng-class="{ selected: isActive('/about')}"><a href="#/about">
+                        Last News</a></li>
+                    <li ng-show="!user"><a href="/login">Login</a></li>
+                    <li ng-hide="!user"><a href="/auth/logout/?next=%2F">Logout</a></li>
+                 {% end %}
+                 </ul>
+
+            </div>
+
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+        {% if current_user %}
+        <div class="info">I found a few new servers. Thanks to those who helped me in this. I think that most servers do not need to. Service will be free. And still if you have a desire to participate in service development (frontend and plugin for IITC), then welcome. If you have ideas to implement (except for checking the neutral portals), write to the Telegram (@guardianhunter).</div>
+        <hr>
+        <div class="error ng-hide" ng-show="error.error">
+            {{!error.error}}
+        </div>
+        <div class="row" ng-view ng-hide="!user">
+        </div>
+        {% else %}
+        <div class="row" ng-show="!user">
+            <h4>For more features please login</h4>
+            <a href="/login" class="btn btn-primary">Login</a>
+            <hr>
+            <h4>Realtime Tracker</h4>
+            <div id="map-canvas" style="height:600px; width:90%;"></div>
+        </div>
+        {% end %}
+    </div>
+    <!-- /.container -->
+
+{% if current_user %}
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>-->
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<script src="bower_components/flot/jquery.flot.js"></script>
+<script src="bower_components/flot/jquery.flot.pie.js"></script>
+
+<!-- In production use:
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+-->
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-route/angular-route.js"></script>
+<script src="app/js/app.js?v=9"></script>
+<script src="app/js/services.js?v=8"></script>
+<script src="app/js/controllers.js?v=9"></script>
+<script src="app/js/filters.js?v=8"></script>
+<script src="app/js/directives.js?v=8"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2yRg4ZAhBINo7CY7kcs2swDJxMXDoffo" async defer></script>
+{% else %}
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyD2yRg4ZAhBINo7CY7kcs2swDJxMXDoffo"></script>
+<script src="app/js/main.js"></script>
+{% end %}
+</body>
+</html>

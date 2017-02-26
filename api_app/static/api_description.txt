@@ -1,0 +1,52 @@
+Main url is: '/api'
+
+#1 Achievements Controller: 
+	method post:
+		"request": "achievements" -- by this section of request api say to controller get achievements data.
+                  "late6": 34010550 -- this lat in 1E6 
+                  "lnge6": -118.085861 -- this lng in 1E6 (portals taked around this center of map)
+                  "days": 100 -- min days of achievements, minimum is hardcoded to 60 days.
+                  "team": 1 -- faction (1 - Enlightened, 2 - Resistance and 3 - neutral)
+                  "zoom": 9 -- zoom got from map (filter to show less achievements when big zoom). Minimum zoom is 9.
+                  "token": "W%qAukb5kT7*Xyf9@JowztC%PW" -- for request without credentials.
+    response in json object:
+    	{
+		  "result": {
+		    "args": {
+		      "team": 1,
+		      "days": 150,
+		      "late6": 34010550,
+		      "zoom": 11,
+		      "request": "achievements",
+		      "lnge6": -118085861,
+		      "token": "W%qAukb5kT7*Xyf9@JowztC%PW"
+		    },
+		    "achievements": [
+		      {
+		        "name": "Edward and Estelle Doheny Chapel",
+		        "ada": false,
+		        "team": 1,
+		        "img": "http://lh6.ggpht.com/S-LeAQ236GNMECrWaaBbWdQw8uXP6ehO3FT-ymqHfKin0pKZSz_xPsTbB6kJ-XXDWKatIEtoRwNiEIajubXl",
+		        "late6": 33989359,
+		        "address": "1105 South Bluff Road, Montebello, CA 90640, USA",
+		        "player": "whitetiger87",
+		        "id": 60139630,
+		        "lnge6": -118114844,
+		        "timestamp": 1468031124766
+		      },
+		      {
+		        "name": "Olive Celebrate Wall",
+		        "ada": false,
+		        "team": 1,
+		        "img": "http://lh4.ggpht.com/f_a2N_sQIFlFm-t54NgEzjxfqGdMTjnior7mrXakNpSFkUZXLYMRGslxDGNvR37oSHeMIdeZTv835WiTX6VR",
+		        "late6": 33861986,
+		        "address": "2312 West Olive Avenue, Fullerton, CA 92833, USA",
+		        "player": "LordSaladBowl",
+		        "id": 75755464,
+		        "lnge6": -117968721,
+		        "timestamp": 1468821245664
+		      },
+		      ....
+		    ]
+		  }
+		}

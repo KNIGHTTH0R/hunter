@@ -1,0 +1,7 @@
+json-delta==2.0
+requests==2.9.1
+tornado==4.3
+redis
+psycopg2
+networkx==1.11
+numpy==1.11.3

@@ -1,0 +1,135 @@
+<div class="row" class="ng-hide">
+    <div class="col-md-12">
+        <form role="form">
+            <div class="form-group">
+                <label for="searchPlayer">Search for player achievements</label>
+                <input type="text" class="form-control" id="searchPlayer" placeholder="Search player..." ng-model="player" required>
+            </div>
+        </form>
+        <button type="submit" class="btn btn-primary" ng-click="playernamesearch(player)">Search player name</button>
+        <button type="submit" class="btn btn-primary" ng-click="achievesearch(player)">Show achievements</button>
+        <button type="submit" class="btn btn-primary" ng-click="profilesearch(player)">Show Profile</button>
+    </div>
+</div>
+<hr>
+
+<div class="cssload-container" id="spaning" data-loading><div class="cssload-whirlpool"></div></div>
+<div id="latlongmap"></div>
+<div class="sub-nav-content-container" ng-show="findPlayerValue" class="ng-hide">
+    <p class="ng-hide error" ng-show="showHidden">User has hidden a part of achievement</p>
+    <div ng-show="showAchieveData">
+        <button id="hunter_btn" type="button" ng-click="showPlayerMap();" class="btn btn-primary">Show on the map</button>
+        <table class="table" st-table="showAchieveData">
+                <thead>
+                <tr class="sortable ">
+                  <th st-sort="firstName">Agent</th>
+                  <th st-sort="lastName">Portal Name</th>
+                  <th st-sort="username">Days</th>
+                  <th st-sort="age">Capture Date</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in showAchieveData">
+                  <td><span ng-style="{'color': TEAM_TO_CSS[item.team]}">{{item.player}}</span></td>
+                  <td><a target="_blank" href="{{getUrl(item.late6,item.lnge6)}}">{{item.name}}</a> <span ng-style="{'color': 'red'}">{{item.ada ? 'Flipped' : ''}}</span><span ng-show="item.address" class="ng-hide"> ({{item.address}})</span></td>
+                  <td>{{unixTimeDiffDays(item.timestamp)}}</td>
+                  <td>{{unixTimeToString(item.timestamp)}}</td>
+                </tr>
+                </tbody>
+            </table>
+    </div>
+</div>
+
+<div class="sub-nav-content-container" ng-show="findNameValue" class="ng-hide">
+    <div ng-show="showNameData">
+
+        <h2>Players with same names</h2>
+
+        <table class="table" st-table="showNameData">
+            <thead>
+            <tr class="sortable ">
+                <th st-sort="firstName">Agent Name (Lowercase)</th>
+                <th st-sort="lastName">Last activity (address)</th>
+                <th st-sort="lastName">Team</th>
+                <th>Time (days ago)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in showNameData" ng-style="{'color': TEAM_TO_CSS[item.team]}">
+                <td><span role="button" ng-click="playersearch(item.player);" ng-style="{'color': TEAM_TO_CSS[item.team]}">{{item.player}} ({{item.player_lowercase}})</span></td>
+                <td>{{plains[item.plain]}} <a target="_blank" href="{{getUrl(item.late6,item.lnge6)}}">{{item.name}}</a> ({{item.address}})</td>
+                <td>{{TEAM_NAME[item.team]}}</td>
+                <td>{{unixTimeToString(item.timestamp)}}({{unixTimeDiffDays(item.timestamp)}})</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div ng-show="showProfileData">
+    <div class="row">
+        <div class="col-md-12">
+            <h2><span ng-style="{'color': TEAM_TO_CSS[showProfileData.team]}">{{findValue}} {{TEAM_NAME[showProfileData.team]}} L{{showProfileData.lvl}}</span></h2>
+            <p>AP: {{showProfileData.ap}}</p>
+            <a class="ng-hide" ng-show="showProfileData.gplus" href="https://plus.google.com/{{showProfileData.gplus}}" target="_blank">GoogleProfile</a>
+            <table class="table" st-table="showProfileData.badges">
+                <thead>
+                <tr class="sortable ">
+                    <th st-sort="firstName">Badge</th>
+                    <th st-sort="lastName">Graduate</th>
+                    <th st-sort="username">Description</th>
+                    <th st-sort="age">Got Date</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in showProfileData.badges">
+                    <td>{{item.title}}</td>
+                    <td><img src="{{item.badgeImageUrl}}" style="height: 25px"/></td>
+                    <td>{{item.description}}</td>
+                    <td>{{unixTimeToString(item.timestampAwarded)}}</td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="ng-hide" ng-show="showProfileData.mission_badges">
+                <h2>Last Missions</h2>
+                <table class="table" st-table="showProfileData.mission_badges">
+                    <thead>
+                    <tr class="sortable ">
+                        <th st-sort="firstName">Mission</th>
+                        <th st-sort="lastName">Badge</th>
+                        <th st-sort="username">Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in showProfileData.mission_badges">
+                        <td>{{item.missionTitle}}</td>
+                        <td><img src="{{item.imageUrl}}" style="height: 25px"/></td>
+                        <td>{{item.missionDescription}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="ng-hide" ng-show="showProfileData.metrics">
+                <h2>Metrics</h2>
+                <table class="table" st-table="showProfileData.metrics">
+                    <thead>
+                    <tr class="sortable ">
+                        <th st-sort="firstName">Description</th>
+                        <th st-sort="lastName">All Time</th>
+                        <th st-sort="username">Month</th>
+                        <th st-sort="age">Week</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in showProfileData.metrics">
+                        <td>{{item.metricName}}</td>
+                        <td>{{item.formattedValueAllTime ? item.formattedValueAllTime : item.formattedValueNow}}</td>
+                        <td>{{item.formattedValue30Days}}</td>
+                        <td>{{item.formattedValue7Days}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
